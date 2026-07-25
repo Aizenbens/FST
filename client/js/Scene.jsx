@@ -1,8 +1,12 @@
 import { Canvas } from "@react-three/fiber";
 
+import World from "./world/World";
+import Player from "./player/Player";
+
 export default function Scene() {
     return (
         <Canvas
+            shadows
             camera={{
                 position: [0, 2, 5],
                 fov: 75
@@ -13,17 +17,12 @@ export default function Scene() {
             <directionalLight
                 position={[5, 10, 5]}
                 intensity={2}
+                castShadow
             />
 
-            <mesh rotation={[-Math.PI / 2, 0, 0]}>
-                <planeGeometry args={[200, 200]} />
-                <meshStandardMaterial color="#4caf50" />
-            </mesh>
+            <World />
 
-            <mesh position={[0, 1, 0]}>
-                <boxGeometry />
-                <meshStandardMaterial color="orange" />
-            </mesh>
+            <Player />
 
         </Canvas>
     );
