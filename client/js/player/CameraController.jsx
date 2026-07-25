@@ -1,5 +1,7 @@
 import { useThree, useFrame } from "@react-three/fiber";
 import { useEffect } from "react";
+import { getMouse, resetMouseDelta } from "../input/Input";
+import PlayerConfig from "./PlayerConfig";
 
 export default function CameraController({ controller }) {
 
@@ -22,6 +24,28 @@ export default function CameraController({ controller }) {
     }, [gl]);
 
     useFrame(() => {
+
+        if (document.pointerLockElement === gl.domElement) {
+
+            const mouse = getMouse();
+
+            controller.rotation.yaw -= mouse.movementX * PlayerConfig.mouseSensitivity;
+            controller.rotation.pitch -= mouse.movementY * PlayerConfig.mouseSensitivity;
+
+            if (controller.rotation.pitch > PlayerConfig.maxLookUp)
+                controller.rotation.pitch = PlayerConfig.maxLookUp;
+
+            if (controller.rotation.pitch < PlayerConfig.maxLookDown)
+                controller.rotation.pitch = PlayerConfig.maxLookDown;
+
+            resetMouseDelta();
+
+        }
+
+        camera.rotation.order = "YXZ";
+
+        camera.rotation.y = controller.rotation.yaw;
+        camera.rotation.x = controller.rotation.pitch;
 
         camera.position.set(
             controller.position.x,
