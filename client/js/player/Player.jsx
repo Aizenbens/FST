@@ -1,11 +1,14 @@
 import CameraController from "./CameraController";
 import Movement from "./Movement";
+import { useFrame } from "@react-three/fiber";
 
 const movement = new Movement();
 
 export default function Player() {
 
-    movement.update();
+    useFrame((state, delta) => {
+        movement.update(delta);
+    });
 
     return (
         <>
@@ -15,15 +18,9 @@ export default function Player() {
                 castShadow
                 position={[0, 1, 0]}
             >
-                <capsuleGeometry
-                    args={[0.35, 1, 8, 16]}
-                />
-
-                <meshStandardMaterial
-                    color="#ff8c00"
-                />
+                <capsuleGeometry args={[0.35, 1, 8, 16]} />
+                <meshStandardMaterial color="#ff8c00" />
             </mesh>
         </>
     );
-
 }
