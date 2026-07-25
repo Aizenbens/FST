@@ -19,6 +19,7 @@ export default function Scene() {
             }}
         >
             <Environment />
+            <gridHelper args={[200, 200, "#444444", "#888888"]} />
 
             <Lights />
 
