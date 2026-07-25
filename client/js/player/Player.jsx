@@ -2,9 +2,11 @@ import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 
 import CameraController from "./CameraController";
+import PlayerController from "./PlayerController";
 import Movement from "./Movement";
 
-const movement = new Movement();
+const controller = new PlayerController();
+const movement = new Movement(controller);
 
 export default function Player() {
 
@@ -13,24 +15,28 @@ export default function Player() {
     useFrame((state, delta) => {
 
         movement.update(delta);
+        controller.update(delta);
 
         if (!playerRef.current) return;
 
-        playerRef.current.position.x += movement.direction.x * movement.speed * delta;
-        playerRef.current.position.z += movement.direction.z * movement.speed * delta;
+        playerRef.current.position.set(
+            controller.position.x,
+            controller.position.y,
+            controller.position.z
+        );
 
     });
 
     return (
         <>
-            <CameraController />
+            <CameraController controller={controller} />
 
             <mesh
                 ref={playerRef}
                 castShadow
-                position={[0, 1, 0]}
             >
-                <capsuleGeometry args={[0.35, 1, 8, 16]} />
+                <capsuleGeometry args={[0.35, 1, 16, 32]} />
+
                 <meshStandardMaterial color="#ff8c00" />
             </mesh>
         </>
