@@ -22,14 +22,29 @@ export default class PlayerController {
         };
 
         this.isGrounded = true;
-
         this.isRunning = false;
 
     }
 
     update(delta) {
 
-        // سنضيف الحركة هنا في الجزء الثاني
+        this.position.x += this.velocity.x * delta;
+        this.position.z += this.velocity.z * delta;
+
+        if (!this.isGrounded) {
+
+            this.velocity.y -= PlayerConfig.gravity * delta;
+            this.position.y += this.velocity.y * delta;
+
+            if (this.position.y <= PlayerConfig.height) {
+
+                this.position.y = PlayerConfig.height;
+                this.velocity.y = 0;
+                this.isGrounded = true;
+
+            }
+
+        }
 
     }
 
