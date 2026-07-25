@@ -1,29 +1,69 @@
 import { Canvas } from "@react-three/fiber";
+import { Physics, RigidBody } from "@react-three/rapier";
+import {
+  PointerLockControls,
+  KeyboardControls
+} from "@react-three/drei";
+
+function Ground() {
+  return (
+    <RigidBody type="fixed">
+      <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+        <planeGeometry args={[100, 100]} />
+        <meshStandardMaterial color="#4caf50" />
+      </mesh>
+    </RigidBody>
+  );
+}
+
+function Player() {
+  return (
+    <RigidBody
+      colliders="cuboid"
+      position={[0, 2, 0]}
+      mass={1}
+    >
+      <mesh castShadow>
+        <capsuleGeometry args={[0.4, 1]} />
+        <meshStandardMaterial color="#3fa9f5" />
+      </mesh>
+    </RigidBody>
+  );
+}
 
 export default function Scene() {
   return (
-    <Canvas
-      camera={{
-        position: [0, 2, 5],
-        fov: 75,
-      }}
+    <KeyboardControls
+      map={[
+        { name: "forward", keys: ["KeyW"] },
+        { name: "backward", keys: ["KeyS"] },
+        { name: "left", keys: ["KeyA"] },
+        { name: "right", keys: ["KeyD"] },
+        { name: "jump", keys: ["Space"] }
+      ]}
     >
-      <ambientLight intensity={1.5} />
+      <Canvas
+        shadows
+        camera={{
+          position: [0, 2, 6],
+          fov: 75
+        }}
+      >
+        <PointerLockControls />
 
-      <directionalLight
-        position={[5, 10, 5]}
-        intensity={2}
-      />
+        <ambientLight intensity={1.5} />
 
-      <mesh rotation={[-Math.PI / 2, 0, 0]}>
-        <planeGeometry args={[50, 50]} />
-        <meshStandardMaterial color="#4caf50" />
-      </mesh>
+        <directionalLight
+          position={[5, 10, 5]}
+          intensity={2}
+          castShadow
+        />
 
-      <mesh position={[0, 0.5, 0]}>
-        <boxGeometry args={[1, 1, 1]} />
-        <meshStandardMaterial color="orange" />
-      </mesh>
-    </Canvas>
+        <Physics gravity={[0, -9.81, 0]}>
+          <Ground />
+          <Player />
+        </Physics>
+      </Canvas>
+    </KeyboardControls>
   );
 }
