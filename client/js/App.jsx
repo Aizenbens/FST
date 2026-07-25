@@ -1,5 +1,5 @@
-import Engine from "./Engine";
+import Scene from "./Scene";
 
 export default function App() {
-  return <Engine />;
+    return <Scene />;
 }
