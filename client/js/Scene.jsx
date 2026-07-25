@@ -1,7 +1,10 @@
 import { Canvas } from "@react-three/fiber";
 
+import Lights from "./scene/Lights";
+import Physics from "./scene/Physics";
 import World from "./world/World";
 import Player from "./player/Player";
+import UI from "./ui/UI";
 
 export default function Scene() {
     return (
@@ -12,18 +15,14 @@ export default function Scene() {
                 fov: 75
             }}
         >
-            <ambientLight intensity={2} />
+            <Lights />
 
-            <directionalLight
-                position={[5, 10, 5]}
-                intensity={2}
-                castShadow
-            />
+            <Physics>
+                <World />
+                <Player />
+            </Physics>
 
-            <World />
-
-            <Player />
-
+            <UI />
         </Canvas>
     );
 }
