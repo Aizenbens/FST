@@ -1,13 +1,24 @@
+import { useRef } from "react";
+import { useFrame } from "@react-three/fiber";
+
 import CameraController from "./CameraController";
 import Movement from "./Movement";
-import { useFrame } from "@react-three/fiber";
 
 const movement = new Movement();
 
 export default function Player() {
 
+    const playerRef = useRef();
+
     useFrame((state, delta) => {
+
         movement.update(delta);
+
+        if (!playerRef.current) return;
+
+        playerRef.current.position.x += movement.direction.x * movement.speed * delta;
+        playerRef.current.position.z += movement.direction.z * movement.speed * delta;
+
     });
 
     return (
@@ -15,6 +26,7 @@ export default function Player() {
             <CameraController />
 
             <mesh
+                ref={playerRef}
                 castShadow
                 position={[0, 1, 0]}
             >
