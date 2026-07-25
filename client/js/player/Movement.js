@@ -11,23 +11,29 @@ export default class Movement {
 
     update(delta) {
 
-        let moveX = 0;
-        let moveZ = 0;
+        let x = 0;
+        let z = 0;
 
-        if (isKeyPressed("KeyW")) moveZ -= 1;
-        if (isKeyPressed("KeyS")) moveZ += 1;
+        if (isKeyPressed("KeyW")) z -= 1;
+        if (isKeyPressed("KeyS")) z += 1;
 
-        if (isKeyPressed("KeyA")) moveX -= 1;
-        if (isKeyPressed("KeyD")) moveX += 1;
+        if (isKeyPressed("KeyA")) x -= 1;
+        if (isKeyPressed("KeyD")) x += 1;
 
-        this.controller.isRunning = isKeyPressed("ShiftLeft");
+        const yaw = this.controller.rotation.yaw;
 
-        const speed = this.controller.isRunning
+        const sin = Math.sin(yaw);
+        const cos = Math.cos(yaw);
+
+        const worldX = x * cos - z * sin;
+        const worldZ = x * sin + z * cos;
+
+        const speed = isKeyPressed("ShiftLeft")
             ? PlayerConfig.sprintSpeed
             : PlayerConfig.speed;
 
-        this.controller.velocity.x = moveX * speed;
-        this.controller.velocity.z = moveZ * speed;
+        this.controller.velocity.x = worldX * speed;
+        this.controller.velocity.z = worldZ * speed;
 
         if (isKeyPressed("Space") && this.controller.isGrounded) {
 
