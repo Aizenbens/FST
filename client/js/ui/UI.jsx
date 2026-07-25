@@ -1,7 +1,3 @@
-
 export default function UI() {
-    return (
-        <>
-        </>
-    );
+    return null;
 }
