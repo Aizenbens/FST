@@ -1,79 +1,121 @@
 import Ground from "./Ground";
 
+function Cube({ position, size = [1, 1, 1], color = "white" }) {
+    return (
+        <mesh position={position} castShadow receiveShadow>
+            <boxGeometry args={size} />
+            <meshStandardMaterial color={color} />
+        </mesh>
+    );
+}
+
 export default function World() {
     return (
         <>
             <Ground />
 
             {/* Spawn */}
-            <mesh position={[0, 0.5, 0]}>
-                <boxGeometry args={[1, 1, 1]} />
-                <meshStandardMaterial color="lime" />
-            </mesh>
+            <Cube
+                position={[0, 0.5, 0]}
+                color="lime"
+            />
 
             {/* Wall */}
-            <mesh position={[0, 2, -20]}>
-                <boxGeometry args={[20, 4, 1]} />
-                <meshStandardMaterial color="gray" />
-            </mesh>
+            <Cube
+                position={[0, 2, -20]}
+                size={[40, 4, 1]}
+                color="#666666"
+            />
 
             {/* Platform */}
-            <mesh position={[8, 1, -8]}>
-                <boxGeometry args={[4, 2, 4]} />
-                <meshStandardMaterial color="orange" />
-            </mesh>
+            <Cube
+                position={[8, 1, -8]}
+                size={[4, 2, 4]}
+                color="orange"
+            />
 
-            {/* Cubes */}
-            <mesh position={[-6, 0.5, -6]}>
-                <boxGeometry />
-                <meshStandardMaterial color="red" />
-            </mesh>
+            {/* Towers */}
+            <Cube
+                position={[15, 2, -10]}
+                size={[3, 4, 3]}
+                color="royalblue"
+            />
 
-            <mesh position={[6, 0.5, -6]}>
-                <boxGeometry />
-                <meshStandardMaterial color="blue" />
-            </mesh>
+            <Cube
+                position={[-15, 3, -5]}
+                size={[2, 6, 2]}
+                color="tomato"
+            />
 
-            <mesh position={[-6, 0.5, 6]}>
-                <boxGeometry />
-                <meshStandardMaterial color="yellow" />
-            </mesh>
+            {/* Direction Markers */}
 
-            <mesh position={[6, 0.5, 6]}>
-                <boxGeometry />
-                <meshStandardMaterial color="purple" />
-            </mesh>
+            {/* Front */}
+            <Cube
+                position={[0, 0.5, -10]}
+                color="red"
+            />
 
-            <mesh position={[0, 0.5, 10]}>
-                <boxGeometry />
-                <meshStandardMaterial color="cyan" />
-            </mesh>
+            {/* Back */}
+            <Cube
+                position={[0, 0.5, 10]}
+                color="blue"
+            />
 
-            <mesh position={[10, 0.5, 0]}>
-                <boxGeometry />
-                <meshStandardMaterial color="pink" />
-            </mesh>
+            {/* Right */}
+            <Cube
+                position={[10, 0.5, 0]}
+                color="green"
+            />
 
-            <mesh position={[-10, 0.5, 0]}>
-                <boxGeometry />
-                <meshStandardMaterial color="white" />
-            </mesh>
+            {/* Left */}
+            <Cube
+                position={[-10, 0.5, 0]}
+                color="yellow"
+            />
 
-            <mesh position={[12, 0.5, 10]}>
-                <boxGeometry />
-                <meshStandardMaterial color="brown" />
-            </mesh>
+            {/* Corners */}
 
-            <mesh position={[-12, 0.5, 10]}>
-                <boxGeometry />
-                <meshStandardMaterial color="gold" />
-            </mesh>
+            <Cube
+                position={[10, 0.5, 10]}
+                color="cyan"
+            />
 
-            <mesh position={[0, 0.5, -12]}>
-                <boxGeometry />
-                <meshStandardMaterial color="black" />
-            </mesh>
+            <Cube
+                position={[-10, 0.5, 10]}
+                color="purple"
+            />
 
+            <Cube
+                position={[10, 0.5, -10]}
+                color="pink"
+            />
+
+            <Cube
+                position={[-10, 0.5, -10]}
+                color="white"
+            />
+
+            {/* Extra Obstacles */}
+
+            <Cube
+                position={[20, 0.5, 5]}
+                color="gold"
+            />
+
+            <Cube
+                position={[-20, 0.5, -8]}
+                color="brown"
+            />
+
+            <Cube
+                position={[5, 0.5, 20]}
+                color="black"
+            />
+
+            <Cube
+                position={[-5, 0.5, -25]}
+                color="orange"
+            />
         </>
     );
 }
