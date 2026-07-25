@@ -1,9 +1,15 @@
-import { useThree } from "@react-three/fiber";
-import { useEffect } from "react";
+import { useThree, useFrame } from "@react-three/fiber";
+import { useEffect, useRef } from "react";
+import { getMouse, resetMouseDelta } from "../input/Input";
 
 export default function CameraController() {
 
     const { camera, gl } = useThree();
+
+    const yaw = useRef(0);
+    const pitch = useRef(0);
+
+    const sensitivity = 0.0025;
 
     useEffect(() => {
 
@@ -22,6 +28,31 @@ export default function CameraController() {
         };
 
     }, [camera, gl]);
+
+    useFrame(() => {
+
+        const mouse = getMouse();
+
+        if (document.pointerLockElement !== gl.domElement) {
+            resetMouseDelta();
+            return;
+        }
+
+        yaw.current -= mouse.movementX * sensitivity;
+        pitch.current -= mouse.movementY * sensitivity;
+
+        const limit = Math.PI / 2 - 0.05;
+
+        if (pitch.current > limit) pitch.current = limit;
+        if (pitch.current < -limit) pitch.current = -limit;
+
+        camera.rotation.order = "YXZ";
+        camera.rotation.y = yaw.current;
+        camera.rotation.x = pitch.current;
+
+        resetMouseDelta();
+
+    });
 
     return null;
 
